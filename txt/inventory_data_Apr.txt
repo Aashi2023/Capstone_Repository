@@ -1,0 +1,11 @@
+Drug Name, Units in Stock, Days' Supply
+Acetaminophen, 1000, 30
+Ibuprofen, 750, 15
+Aspirin, 500, 25
+Lisinopril, 100, 10
+Metformin, 250, 20
+Atorvastatin, 300, 15
+Cephalexin, 200, 5
+Clopidogrel, 150, 30
+Furosemide, 400, 20
+Lorazepam, 50, 10
