@@ -1,0 +1,5 @@
+Product Name,Product Code,Batch Number,Manufacturing Date,Expiry Date,Quantity,Location
+Aspirin,AS100,BN123,2022-05-01,2023-04-30,5000,Warehouse A
+Ibuprofen,IB200,BN456,2022-06-15,2023-06-14,3000,Warehouse B
+Amoxicillin,AM500,BN789,2022-07-01,2023-06-30,4000,Warehouse C
+Paracetamol,PA500,BN321,2022-08-01,2023-07-31,2000,Warehouse A

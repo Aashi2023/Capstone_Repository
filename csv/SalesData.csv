@@ -1,0 +1,5 @@
+Date,Product Name,Product Code,Quantity,Unit Price,Total Price,Customer Name,Customer Email
+2022-05-01,Aspirin,AS100,100,0.5,50.0,ABC Pharmacy,info@abcpharmacy.com
+2022-05-01,Ibuprofen,IB200,50,0.75,37.5,XYZ Pharmacy,info@xyzpharmacy.com
+2022-05-02,Amoxicillin,AM500,150,1.25,187.5,LMN Healthcare,orders@lmnhealthcare.com
+2022-05-03,Paracetamol,PA500,200,1.0,200.0,DEF Pharmacy,info@defpharmacy.com
