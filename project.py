@@ -26,7 +26,6 @@ except DirectoryExistsError as e:
     print("Error:", e)
 
 
-
 def search_files(directory_path, text_pattern):
     try:
         # Define the file extensions to search for
@@ -68,7 +67,6 @@ def search_files(directory_path, text_pattern):
         print(error_msg)
         raise Exception(error_msg)
     
-
 def create_inventory_data_text(file_name, directory_path):
     # Creates a list of tuples called inventory_data that contains the name, units in stock, and days' supply for each drug
     inventory_data = [("Acetaminophen", 1000, 30),
@@ -230,6 +228,8 @@ def file_organizer(directory):
         for file in files:
             # Get the full file path
             file_path = os.path.join(directory, file)
+            # Add print statement scanning with file name.
+            print(f"Scanning file: {file}")
             # Check if the file is a .doc, .txt, .csv, or .xlsx file
             if file.endswith(('.txt', '.csv', '.xlsx', '.doc',)):
                 # Create a subdirectory based on the file extension
@@ -267,7 +267,6 @@ def main():
     file_organizer(directory)
     DirectoryExistsError(directory)
     CancelExecution(directory)
-   
    
 
 if __name__ == '__main__':
