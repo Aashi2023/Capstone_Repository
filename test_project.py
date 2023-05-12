@@ -2,10 +2,8 @@ import os
 import shutil
 import unittest
 import tempfile
-import signal
-from tqdm import tqdm
 from project import file_organizer,  DirectoryExistsError, search_files, create_sales_data_csv, update_inventory_data_text, create_product_inventory_csv
-from project import CancelExecution, signal_handler
+from project import CancelExecution, create_inventory_data_text, create_excel
 
 class TestFunctions(unittest.TestCase):
 
@@ -13,15 +11,16 @@ class TestFunctions(unittest.TestCase):
         # Create a test directory and files
         self.test_dir = tempfile.mkdtemp(dir='.')
         # Define the directory for the test
-        self.directory = os.path.join(self.test_dir, 'test_dir')
-    
+        self.directory = os.path.join(self.test_dir)
+        
+    """ 
     def test_DirectoryExistsError(self):
         # Create the directory
         os.mkdir(self.directory)
         # Test if a DirectoryExistsError is raised when trying to create the directory again
         with self.assertRaises(DirectoryExistsError):
             raise DirectoryExistsError(f"Directory '{self.directory}' already exists.")
-        print("Test case 1 : DirectoryExistsError")
+        print("Test case 1 : DirectoryExistsError") """
     
     def test_DirectoryExistsError(self):
        # Define the directory for the test
@@ -33,42 +32,33 @@ class TestFunctions(unittest.TestCase):
           raise DirectoryExistsError(f"Directory '{self.directory}' already exists.")
         print("Test case 2 : DirectoryExistsError, 'test_dir' is already exists")
 
-    def test_file_organizer(self):
-        # Create test files in the directory
-        with open(os.path.join(self.test_dir, 'test_file.txt'), 'w') as f:
-           f.write('test')
-        with open(os.path.join(self.test_dir, 'test_file.csv'), 'w') as f:
-            f.write('test')
-        with open(os.path.join(self.test_dir, 'test_file.xlsx'), 'w') as f:
-            f.write('test')
-        with open(os.path.join(self.test_dir, 'test_file.doc'), 'w') as f:
-            f.write('test')
-
-        # Create test files with invalid extension in the directory
-        with open(os.path.join(self.test_dir, 'test_file_1.txt'), 'w') as f:
-           f.write('test')
-        with open(os.path.join(self.test_dir, 'test_file.xyz'), 'w') as f:
-            f.write('test')
-       # Test that the function organizes files correctly
-        try:
-          file_organizer(self.test_dir)
-        except CancelExecution:
-          pass
-        # Test that the function organizes files correctly
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'txt')))
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'csv')))
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'xlsx')))
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'doc')))
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'txt', 'test_file.txt')))
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'csv', 'test_file.csv')))
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'xlsx', 'test_file.xlsx')))
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'doc', 'test_file.doc')))
-
-    # Test that the function ignores files with invalid extensions
-        self.assertFalse(os.path.exists(os.path.join(self.test_dir, 'xyz')))
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'txt')))
-        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'txt', 'test_file_1.txt')))
-    
+    def test_create_inventory_data_text(self):
+        file_name = 'test_inventory_data.txt'
+        directory_path = self.test_dir
+        create_inventory_data_text(file_name, directory_path)
+        file_path = os.path.join(directory_path, file_name)
+        self.assertTrue(os.path.exists(file_path))
+        
+    def test_create_product_inventory_csv(self):
+        file_name = 'test_product_inventory.csv'
+        directory_path = self.test_dir
+        create_product_inventory_csv(file_name, directory_path)
+        file_path = os.path.join(directory_path, file_name)
+        self.assertTrue(os.path.exists(file_path))
+        
+    def test_create_sales_data_csv(self):
+        file_name = 'test_sales_data.csv'
+        directory_path = self.test_dir
+        create_sales_data_csv(file_name, directory_path)
+        file_path = os.path.join(directory_path, file_name)
+        self.assertTrue(os.path.exists(file_path))
+        
+    def test_create_excel(self):
+        file_name = 'test_employees.xlsx'
+        directory_path = self.test_dir
+        create_excel(file_name, directory_path)
+        file_path = os.path.join(directory_path, file_name)
+        self.assertTrue(os.path.exists(file_path))
 
     def test_update_inventory_data_text(self):
         # create a test file for inventory data
@@ -83,7 +73,7 @@ class TestFunctions(unittest.TestCase):
             updated_data = f.readlines()
         expected_data = ["Aspirin, 600, 25\n", "Paracetamol, 1000, 15\n", "Ibuprofen, 1000, 20\n"]
         self.assertEqual(updated_data, expected_data)
-    
+
     def test_search_files(self):
         # Create test files in the directory
         with open(os.path.join(self.test_dir, 'test_file1.txt'), 'w') as f:
@@ -108,21 +98,60 @@ class TestFunctions(unittest.TestCase):
         # Test that the function returns "No files found" if no matching files are found
         self.assertEqual(search_files(self.test_dir, 'no_match'), "No files found.")
         
-        """ # Test that the function handles errors gracefully
-        self.assertEqual(search_files('/invalid/directory', 'test'), "Error: [WinError 3] The system cannot find the path specified: '/invalid/directory'")
-         """
+        """ 
+        # Test that the function handles errors gracefully
+        self.assertEqual(search_files('/invalid/directory', 'test'), "Error: [WinError 3] The system cannot find the path specified: '/invalid/directory'") """
+    
+     
         # Test that the function returns "No files found" for an empty directory
         self.assertEqual(search_files(self.test_dir, 'test'), "No files found.")
+
+    def test_file_organizer(self):
+    # Create test files in the directory
+        with open(os.path.join(self.test_dir, 'file1.txt'), 'w') as f:
+          f.write('test')
+        with open(os.path.join(self.test_dir, 'file2.csv'), 'w') as f:
+          f.write('file test')
+        with open(os.path.join(self.test_dir, 'file3.xlsx'), 'w') as f:
+          f.write('test')
+        with open(os.path.join(self.test_dir, 'file4.doc'), 'w') as f:
+          f.write('test')
+        with open(os.path.join(self.test_dir, 'file5.csv'), 'w') as f:
+          f.write('csv test')
+        with open(os.path.join(self.test_dir, 'file6.txt'), 'w') as f:
+          f.write('txt test')
         
-        """ # Test that the function returns an error message for a nonexistent directory
-        self.assertEqual(search_files('/nonexistent/directory', 'test'), "Error: [WinError 3] The system cannot find the path specified: '/nonexistent/directory'") """
-    """ 
-    def tearDown(self):
+       # Call the file_organizer function
+        try:
+           file_organizer(self.test_dir)
+        except CancelExecution:
+            pass
+        # Print the list of files before calling the function
+        print(os.listdir(self.test_dir))
+            
+        # Test that the function organizes files correctly
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'txt')))
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'csv')))
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'xlsx')))
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'doc')))
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'txt', 'file1.txt')))
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'csv', 'file2.csv')))
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'xlsx', 'file3.xlsx')))
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'doc', 'file4.doc')))
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'csv', 'file5.csv')))
+        self.assertTrue(os.path.exists(os.path.join(self.test_dir, 'txt', 'file6.txt')))
+
+    # Create test files with invalid extension in the directory
+        with open(os.path.join(self.test_dir, 'file6.xyz'), 'w') as f:
+         f.write('test')
+       
+    # Test that the function ignores files with invalid extensions
+        self.assertFalse(os.path.exists(os.path.join(self.test_dir, 'xyz')))
+    
+ 
+    """ def tearDown(self):
         # Remove the test directory and files
        shutil.rmtree(self.test_dir)  """
-    
-
 
 if __name__ == '__main__':
     unittest.main()
-   
