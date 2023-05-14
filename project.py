@@ -207,7 +207,7 @@ def main():
     # call function to organize the root directory by placing 3 types of files into respective sub-directories
     directory = "C:\\Users\\jeetj\\mycapstone_project"   
     #call function to create a .text file
-    create_inventory_data_text('inventory_data_Apr1.txt', directory)   
+    create_inventory_data_text('inventory_data_Apr2.txt', directory)   
     #call function to update a .text file
     update_inventory_data_text('inventory_data_Apr.txt', directory) 
     #call function to create a .csv file
