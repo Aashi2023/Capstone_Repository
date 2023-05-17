@@ -193,9 +193,9 @@ def file_organizer(directory):
                 # Check for user input to see scanning process
                 try:
                     if input("Press 'Enter' to see file organizing process: ") == 'E':
-                       raise CancelExecution("Scanning/organizing files canceled by user.") 
+                       raise CancelExecution("Scanning/organizing files cancelled by user.") 
                 except EOFError:
-                   raise CancelExecution("Scanning/organizing files canceled by user.")       
+                   raise CancelExecution("Scanning/organizing files cancelled by user.")       
         print("Scanning and organizing files completed.")
         print(f"Total files scanned: {files_scanned}")
         print(f"Total files organized: {files_organized}")   
@@ -207,14 +207,14 @@ def main():
     # call function to organize the root directory by placing 3 types of files into respective sub-directories
     directory = "C:\\Users\\jeetj\\mycapstone_project"   
     #call function to create a .text file
-    create_inventory_data_text('inventory_data_Apr2.txt', directory)   
+    create_inventory_data_text('inventory_data_May.txt', directory)   
     #call function to update a .text file
     update_inventory_data_text('inventory_data_Apr.txt', directory) 
     #call function to create a .csv file
-    create_product_inventory_csv('productinventory3.csv', directory)  
+    create_product_inventory_csv('productinventoryApr.csv', directory)  
     create_sales_data_csv('SalesData.csv', directory)
     #call function to create a .xlsx file
-    create_excel('EmployeeData1.xlsx', directory)
+    create_excel('EmployeeData.xlsx', directory)
     #Call function to search file with specific text pattern
     text_pattern = input("Enter a text pattern to search for: ")
     search_files(directory, text_pattern)
